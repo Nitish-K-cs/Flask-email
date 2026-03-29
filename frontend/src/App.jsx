@@ -106,82 +106,89 @@ function App() {
     setMessage('')
   }
 
-  return (
-    <div className="app-shell">
-      <h1>Contact Manager</h1>
-      {message && <p className="message">{message}</p>}
+return (
+  <div className="dashboard">
+    
+    {/* Sidebar */}
+    <aside className="sidebar">
+      <h2 className="logo">Nexus Direct</h2>
+      <button className="primary-btn">+ New Contact</button>
 
-      <form onSubmit={handleSubmit} className="contact-form">
-        <div className="field-row">
-          <label htmlFor="fname">First Name</label>
-          <input
-            id="fname"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </div>
-        <div className="field-row">
-          <label htmlFor="lname">Last Name</label>
-          <input
-            id="lname"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </div>
-        <div className="field-row">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+      <nav>
+        <p className="active">All Contacts</p>
+        <p>Groups</p>
+        <p>Recent</p>
+        <p>Trash</p>
+      </nav>
+    </aside>
+
+    {/* Main Content */}
+    <main className="main">
+      
+      {/* Topbar */}
+      <div className="topbar">
+        <input placeholder="Search contacts..." />
+        <div className="profile">Nexus Direct</div>
+      </div>
+
+      {/* Header */}
+      <div className="header">
+        <h1>All Contacts</h1>
+        <div className="count-card">Total Contacts: {contacts.length}</div>
+      </div>
+
+      {/* Cards Section */}
+      <div className="cards">
+        
+        {/* Quick Add */}
+        <form onSubmit={handleSubmit} className="quick-add">
+          <h3>Quick Add</h3>
+          <input placeholder="First Name" value={firstName} onChange={(e)=>setFirstName(e.target.value)} />
+          <input placeholder="Last Name" value={lastName} onChange={(e)=>setLastName(e.target.value)} />
+          <input placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} />
+
+          <button type="submit">{isEditing ? "Update" : "Add"}</button>
+        </form>
+
+        {/* Insights */}
+        <div className="insights">
+          <h3>Network Insights</h3>
+          <p>Contacts growing 🚀</p>
         </div>
 
-        <div className="buttons">
-          <button type="submit">{isEditing ? 'Update' : 'Add'} user</button>
-          {isEditing && (
-            <button type="button" className="cancel" onClick={handleCancel}>
-              Cancel
-            </button>
-          )}
-        </div>
-      </form>
+      </div>
 
-      <h2>All Users</h2>
-      {contacts.length === 0 ? (
-        <p>No users yet.</p>
-      ) : (
-        <table className="contact-table">
+      {/* Table */}
+      <div className="table-card">
+        <h3>Recent Contacts</h3>
+
+        <table>
           <thead>
             <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
+              <th>Name</th>
               <th>Email</th>
               <th>Actions</th>
             </tr>
           </thead>
+
           <tbody>
-            {contacts.map((contact) => (
-              <tr key={contact.id}>
-                <td>{contact.firstName}</td>
-                <td>{contact.lastName}</td>
-                <td>{contact.email}</td>
+            {contacts.map((c) => (
+              <tr key={c.id}>
+                <td>{c.firstName} {c.lastName}</td>
+                <td>{c.email}</td>
                 <td>
-                  <button className="small" onClick={() => handleEdit(contact)}>
-                    Edit
-                  </button>
-                  <button className="small danger" onClick={() => handleDelete(contact.id)}>
-                    Delete
-                  </button>
+                  <button onClick={()=>handleEdit(c)}>✏️</button>
+                  <button onClick={()=>handleDelete(c.id)}>🗑️</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-      )}
-    </div>
-  )
+      </div>
+
+    </main>
+  </div>
+);
 }
 
 export default App
