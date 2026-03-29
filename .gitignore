@@ -1,6 +1,7 @@
 # =====================
 # Python / Flask
 # =====================
+# backend/env/
 backend/venv/
 backend/.venv/
 backend/__pycache__/
